@@ -69,8 +69,8 @@ const char *MQTT_CLIENT_ID = "Plant_Monitor_001";
 #define SOIL_AIR_VALUE 3200
 #define SOIL_WATER_VALUE 1400
 // ★ 新增：缺水报警阈值（带回滞，避免在阈值附近反复报警）
-#define SOIL_DRY_PERCENT 20 // 低于此湿度触发报警
-#define SOIL_DRY_RECOVER 25 // 回升到此湿度才解除报警标志
+#define SOIL_DRY_PERCENT 100 // 低于此湿度触发报警
+#define SOIL_DRY_RECOVER 101 // 回升到此湿度才解除报警标志
 
 /*************************************************
  * ⑦ 全局对象
@@ -707,21 +707,23 @@ void tft_drawStaticUI()
   tft.drawFastHLine(0, 28, TFT_SCREEN_WIDTH, TFT_DARKGREY);
 
   tft.setTextColor(TFT_CYAN, TFT_BLACK);
-  tft.drawString("湿度:", 10, 42, 2);
-  tft.drawString("原始值:", 10, 72, 2);
+  tft.drawString("Moisture:", 10, 42, 2);
+  tft.drawString("Raw:", 10, 72, 2);
   tft.drawString("WiFi:", 10, 102, 2);
   tft.drawString("MQTT:", 10, 132, 2);
 
   tft.drawFastHLine(180, 100, 130, TFT_DARKGREY);
-  tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
-  tft.drawString("单击: 刷新湿度", 190, 115, 2);
-  tft.drawString("双击: 串口调试", 190, 140, 2);
-  tft.drawString("长按: 立即上报", 190, 165, 2);
 
-  tft.drawFastHLine(0, 228, TFT_SCREEN_WIDTH, TFT_DARKGREY);
+  tft.setTextColor(TFT_LIGHTGREY, TFT_BLACK);
+  tft.drawString("Tap: Refresh", 190, 115, 2);
+  tft.drawString("2Tap: Debug", 190, 140, 2);
+  tft.drawString("Hold: Upload", 190, 165, 2);
+
+  tft.drawFastHLine(0, 218, TFT_SCREEN_WIDTH, TFT_DARKGREY);
+
   tft.setTextColor(TFT_DARKGREY, TFT_BLACK);
-  tft.drawString("上报: plant/status", 10, 232, 2);
-  tft.drawString("订阅: plant/control", 170, 232, 2);
+  tft.drawString("Pub: plant/status", 10, 222, 2);
+  tft.drawString("Sub: plant/control", 170, 222, 2);
 }
 
 void drawValueField(int x, int y, int w, int h, const String &value, uint16_t color, int font)
@@ -735,32 +737,31 @@ void tft_updateDynamicUI()
 {
   String soilText = String(soilPercent) + "%";
   String rawText = String(soilRaw);
-  String wifiText = wifiOK ? "已连接" : "未连接";
-  String mqttText = mqttOK ? "已连接" : "未连接";
+  String wifiText = wifiOK ? "OK" : "OFF";
+  String mqttText = mqttOK ? "OK" : "OFF";
 
   if (soilText != lastSoilText)
   {
-    // ★ 新增：湿度过低显示红色提示缺水
     uint16_t soilColor = (soilPercent <= SOIL_DRY_PERCENT) ? TFT_RED : TFT_WHITE;
-    drawValueField(80, 42, 80, 20, soilText, soilColor, 2);
+    drawValueField(95, 42, 75, 20, soilText, soilColor, 2);
     lastSoilText = soilText;
   }
 
   if (rawText != lastRawText)
   {
-    drawValueField(80, 72, 80, 20, rawText, TFT_WHITE, 2);
+    drawValueField(95, 72, 75, 20, rawText, TFT_WHITE, 2);
     lastRawText = rawText;
   }
 
   if (wifiText != lastWifiText)
   {
-    drawValueField(80, 102, 80, 20, wifiText, wifiOK ? TFT_GREEN : TFT_RED, 2);
+    drawValueField(95, 102, 75, 20, wifiText, wifiOK ? TFT_GREEN : TFT_RED, 2);
     lastWifiText = wifiText;
   }
 
   if (mqttText != lastMqttText)
   {
-    drawValueField(80, 132, 80, 20, mqttText, mqttOK ? TFT_GREEN : TFT_RED, 2);
+    drawValueField(95, 132, 75, 20, mqttText, mqttOK ? TFT_GREEN : TFT_RED, 2);
     lastMqttText = mqttText;
   }
 }
