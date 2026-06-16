@@ -56,8 +56,8 @@
  *
  *************************************************/
 
-const char *WIFI_SSID = "arduino_108";
-const char *WIFI_PASSWORD = "a1b2c3d4";
+const char *WIFI_SSID = "Rei";
+const char *WIFI_PASSWORD = "200562hm";
 
 /*************************************************
  *
