@@ -38,7 +38,7 @@
 #define BUZZER_BIT 3
 #define BUZZER_ON_LEVEL 0
 #define BUZZER_OFF_LEVEL 1
-#define BUZZER_ALARM_BEEPS 5
+#define BUZZER_ALARM_BEEPS 50
 #define BUZZER_BEEP_MS 300
 
 /*************************************************
@@ -56,8 +56,8 @@
  *
  *************************************************/
 
-const char *WIFI_SSID = "Rei";
-const char *WIFI_PASSWORD = "200562hm";
+const char *WIFI_SSID = "arduino_108";
+const char *WIFI_PASSWORD = "a1b2c3d4";
 
 /*************************************************
  *
@@ -89,9 +89,9 @@ const char *MQTT_CLIENT_ID = "Plant_Monitor_001";
  *
  *************************************************/
 
-// 演示模式：湿度 <= 65% 触发报警，>= 70% 恢复
-#define HUMI_ALARM_PERCENT 65
-#define HUMI_RECOVER_PERCENT 70
+// 演示模式：湿度 <= 39% 触发报警，>= 42% 恢复
+#define HUMI_ALARM_PERCENT 39
+#define HUMI_RECOVER_PERCENT 42
 
 /*************************************************
  *
