@@ -22,7 +22,7 @@
 #define KEY_ACTIVE_LEVEL LOW
 
 // DHT11 传感器，OUT 接 IO15
-#define DHT_PIN 15
+#define DHT_PIN 0
 #define DHT_TYPE DHT11
 
 // XL9555 I2C 配置
